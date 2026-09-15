@@ -9,7 +9,7 @@
 
 ### Added
 
-- On Cursor SDK auth failures (invalid/unauthorized/missing API key), automatically queue `/reload` as a follow-up. That usually just re-reads the existing stored/`CURSOR_API_KEY` credential and recreates the SDK agent (no `/login` or env change required); it also picks up a newly saved key if you did rotate one. Cooldown (60s) prevents reload loops when the key remains bad.
+- On Cursor SDK auth failures (invalid/unauthorized/missing API key) **or** stale connection aborts (`This operation was aborted`, common after answering a long-idle question UI), automatically run `/cursor-sdk-recover`: reload the extension runtime (re-reads stored/`CURSOR_API_KEY` and recreates the SDK agent), then continue the prior turn. Cooldown (60s) prevents reload loops when the key remains bad.
 
 ## 0.3.6 - 2026-08-18
 

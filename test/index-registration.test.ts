@@ -189,6 +189,10 @@ describe("extension registration and discovery", () => {
 			"cursor-refresh-config",
 			expect.objectContaining({ description: expect.stringContaining("Refresh filesystem Cursor config") }),
 		);
+		expect(pi.registerCommand).toHaveBeenCalledWith(
+			"cursor-sdk-recover",
+			expect.objectContaining({ description: expect.stringContaining("Reload after a Cursor SDK") }),
+		);
 		expect(pi.registerTool).toHaveBeenCalledTimes(10);
 		expect(pi._tools.map((tool) => tool.name)).toEqual([
 			CURSOR_ASK_QUESTION_TOOL_NAME,
