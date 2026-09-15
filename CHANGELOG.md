@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+### Fixed
+
+- Keep `cursor_ask_question` from inheriting the MCP CallTool deadline, and do not abort its pi UI when Cursor cancels the MCP request after a timeout. Late answers are delivered as a follow-up; if the question UI was already closed, queue `continue` without requiring `/reload`.
+- Treat truncated `@cursor/sdk` MCP `Protocol._setupTimeout` stacks (missing `callTool` frames) as tool-call timeouts so the 3600s override still applies instead of the 60s SDK default.
+
 ## 0.3.6 - 2026-08-18
 
 ### Fixed
