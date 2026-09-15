@@ -7,6 +7,10 @@
 - Keep `cursor_ask_question` from inheriting the MCP CallTool deadline, and do not abort its pi UI when Cursor cancels the MCP request after a timeout. Late answers are delivered as a follow-up; if the question UI was already closed, queue `continue` without requiring `/reload`.
 - Treat truncated `@cursor/sdk` MCP `Protocol._setupTimeout` stacks (missing `callTool` frames) as tool-call timeouts so the 3600s override still applies instead of the 60s SDK default.
 
+### Added
+
+- On Cursor SDK auth failures (invalid/unauthorized/missing API key), automatically queue `/reload` as a follow-up. That usually just re-reads the existing stored/`CURSOR_API_KEY` credential and recreates the SDK agent (no `/login` or env change required); it also picks up a newly saved key if you did rotate one. Cooldown (60s) prevents reload loops when the key remains bad.
+
 ## 0.3.6 - 2026-08-18
 
 ### Fixed
