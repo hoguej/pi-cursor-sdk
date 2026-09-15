@@ -4,7 +4,7 @@
 
 ### Added
 
-- On Cursor SDK auth failures (invalid/unauthorized/missing API key), automatically queue `/reload` as a follow-up so a refreshed `/login` key or updated `CURSOR_API_KEY` is picked up without a manual restart. Cooldown (60s) prevents reload loops when the key remains bad.
+- On Cursor SDK auth failures (invalid/unauthorized/missing API key), automatically queue `/reload` as a follow-up. That usually just re-reads the existing stored/`CURSOR_API_KEY` credential and recreates the SDK agent (no `/login` or env change required); it also picks up a newly saved key if you did rotate one. Cooldown (60s) prevents reload loops when the key remains bad.
 
 ## 0.3.6 - 2026-08-18
 

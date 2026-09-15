@@ -8,8 +8,11 @@ import {
 } from "./cursor-provider-errors.js";
 
 /**
- * Queue pi's built-in `/reload` after Cursor auth failures so a freshly saved
- * `/login` key or updated `CURSOR_API_KEY` is picked up without a manual restart.
+ * Queue pi's built-in `/reload` after Cursor auth failures.
+ *
+ * In practice the existing stored/`CURSOR_API_KEY` credential is often still
+ * valid — `/reload` re-resolves it and recreates the Cursor SDK agent. The same
+ * path also picks up a newly saved `/login` key or an updated env value.
  *
  * Cooldown prevents a reload loop when the key remains invalid.
  */
@@ -57,7 +60,8 @@ export type CursorAuthReloadHandlerOptions = {
 
 /**
  * Register a `message_end` handler that queues `/reload` after Cursor auth
- * failures, with a cooldown so a still-bad key cannot loop forever.
+ * failures so the existing credential is re-read without a manual `/reload`.
+ * Cooldown keeps a still-bad key from looping forever.
  */
 export function registerCursorAuthReload(
 	pi: CursorAuthReloadExtensionApi,
@@ -94,7 +98,7 @@ export function registerCursorAuthReload(
 function notifyAuthReloadQueued(ctx: Pick<ExtensionContext, "hasUI" | "ui">): void {
 	if (!ctx.hasUI) return;
 	ctx.ui.notify(
-		"Cursor API key auth failed — queuing /reload so a refreshed key from /login or CURSOR_API_KEY is picked up.",
+		"Cursor auth failed — queuing /reload to re-read the existing API key (no /login required).",
 		"warning",
 	);
 }
